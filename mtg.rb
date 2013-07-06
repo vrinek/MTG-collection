@@ -33,6 +33,8 @@ def process_input(input)
 		puts HELP_TEXT
 		puts "Current collection:"
 		ap $cards
+		puts "Known sets:"
+		ap SETS
 		return nil
 	elsif input =~ /^\d+$/ # card number
 		$cards[@set_code][input.to_i] += 1
