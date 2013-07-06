@@ -9,10 +9,12 @@ HELP_TEXT = <<-TEXT
 	Enter nothing to exit the program.
 TEXT
 
+# BUG: `url_for` does not work with fuse cards.
 def url_for(set_code, number)
 	"http://magiccards.info/#{set_code}/en/#{number}.html"
 end
 
+# BUG: `img_for` does not work with fuse cards.
 def img_for(set_code, number)
 	"http://magiccards.info/scans/en/#{set_code}/#{number}.jpg"
 end
