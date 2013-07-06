@@ -28,7 +28,7 @@ This script is mostly targeted at developers and other people that feel comforta
 
 ### Web interface
 
-I am a web developer and having sortable and filterable tables of my cards sounds like a better idea that simply a command line interface. This does not mean that I intend to abandon the CLI but having a web interface and your collection on the cloud means that you don't need your laptop wherever you are. I will also try and make this fault tollerant to server outages (in other words, have your collection both at your hard drive and the cloud).
+I am a web developer and having sortable and filterable tables of my cards sounds like a better idea that simply a command line interface. This does not mean that I intend to abandon the CLI but having a web interface and your collection on the cloud means that you don't need your laptop wherever you are. I will also try and make this fault tolerant to server outages (in other words, have your collection both at your hard drive and the cloud).
 
 ### Friends & alerts
 
@@ -40,4 +40,16 @@ This will probably branch out into a couple of apps for iOS/Android (and maybe W
 
 ### Pattern recognition for cards input
 
-I want to be able to snap a photo of a bunch of cards on a table and the program to automaticaly recognize them and add them to my collection. Simple scenario: open a booster pack, arrange the cards on the table, snap a photo (within the mobile app), get a list of the cards to add to your collection.
+I want to be able to snap a photo of a bunch of cards on a table and the program to automatically recognize them and add them to my collection. Simple scenario: open a booster pack, arrange the cards on the table, snap a photo (within the mobile app), get a list of the cards to add to your collection.
+
+## Wanna help?
+
+Fork, edit, make a pull request.
+
+This project is still quite young but for the future keep in mind the following:
+
+* Ruby is the language
+* YARD is/will be the documentation syntax
+* JSON is the file format
+
+All of the above are subject to change and I will gladly accept ideas about alternative solutions.
