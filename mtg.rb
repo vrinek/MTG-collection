@@ -32,14 +32,14 @@ def process_input(input)
 	if input.empty? # end of story
 		ap $cards
 		return false
-	elsif input == "?"
+	elsif input == "?" # help
 		puts HELP_TEXT
 		puts "Current collection:"
 		ap $cards
 		puts "Known sets:"
 		ap SETS
 		return nil
-	elsif SETS.has_key?(input)
+	elsif SETS.has_key?(input) # set code
 		@set_code = input
 		$cards[@set_code] ||= Hash.new(0)
 		return input
