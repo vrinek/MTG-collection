@@ -36,19 +36,16 @@ def process_input(input)
 		puts "Known sets:"
 		ap SETS
 		return nil
+	elsif SETS.has_key?(input)
+		@set_code = input
+		$cards[@set_code] ||= Hash.new(0)
+		return input
 	elsif input =~ /^\d+$/ # card number
 		$cards[@set_code][input.to_i] += 1
 		return input
-	else # set code
-		if SETS.has_key?(input)
-			@set_code = input
-			$cards[@set_code] ||= Hash.new(0)
-			return input
-		else
-			puts "Wrong key"
-			ap SETS
-			return nil
-		end
+	else
+		puts "Uknown command. Type \"?\" for help."
+		return nil
 	end
 end
 
