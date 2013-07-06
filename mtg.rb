@@ -8,6 +8,7 @@ HELP_TEXT = <<-TEXT
 	Enter a number to add a card to your collection.
 	Enter nothing to exit the program.
 TEXT
+CARD_NUMBER_RX = /^(\d+)([x ](\d+))?$/
 
 # BUG: `url_for` does not work with fuse cards.
 def url_for(set_code, number)
@@ -42,8 +43,10 @@ def process_input(input)
 		@set_code = input
 		$cards[@set_code] ||= Hash.new(0)
 		return input
-	elsif input =~ /^\d+$/ # card number
-		$cards[@set_code][input.to_i] += 1
+	elsif input =~ CARD_NUMBER_RX # card number (and amount)
+		number, _, amount = input.scan(CARD_NUMBER_RX)[0]
+		amount ||= 1
+		$cards[@set_code][number.to_i] += amount.to_i
 		return input
 	else
 		puts "Uknown command. Type \"?\" for help."
