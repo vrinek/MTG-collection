@@ -69,6 +69,12 @@ def process_input(input, verbose = true)
 		if verbose
 			card = @cards_list.find { |card| card[:number].to_i == number.to_i }
 			ap card
+			next_ten = @cards_list.select do |card|
+				card[:number].to_i > number.to_i && card[:number].to_i <= number.to_i + 10
+			end
+			next_ten.sort_by { |card| card[:number].to_i }.each do |card|
+				puts "%3d - %s"%[card[:number], card[:name]]
+			end
 		end
 		return input
 	else
