@@ -79,7 +79,7 @@ class InputProcessor
 			cards_list = cards_list_for(set_code)
 			card_numbers.each do |(number, quantity)|
 				card = find_card(number, cards_list)
-				rarities[card[:rarity]] += 1
+				rarities[card[:rarity]] += quantity
 			end
 			rarities.each do |rarity, quantity|
 				puts "%4d %s"%[quantity, rarity]
