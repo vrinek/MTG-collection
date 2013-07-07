@@ -1,5 +1,6 @@
 require "awesome_print"
 require "./sets.rb"
+require "./checklist.rb"
 require 'open-uri'
 
 $cards = {}
@@ -42,11 +43,16 @@ def process_input(input)
 	elsif SETS.has_key?(input) # set code
 		@set_code = input
 		$cards[@set_code] ||= Hash.new(0)
+		checklist = Checklist.new(@set_code)
+		checklist.fetch!
+		@cards_list = checklist.cards
 		return input
 	elsif input =~ CARD_NUMBER_RX # card number (and amount)
 		number, _, amount = input.scan(CARD_NUMBER_RX)[0]
 		amount ||= 1
 		$cards[@set_code][number.to_i] += amount.to_i
+		card = @cards_list.find { |card| card[:number].to_i == number.to_i }
+		ap card
 		return input
 	else
 		puts "Uknown command. Type \"?\" for help."
