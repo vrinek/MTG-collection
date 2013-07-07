@@ -35,25 +35,26 @@ class InputProcessor
 	end
 
 	def process_input(input)
-		if input.empty? # end of story
+		if input.empty?
 			end_processing
-		elsif input == "?" || input == "help" # display help
+		elsif input == "?" || input == "help"
 			display_help
-		elsif input == "cards" # display cards collection
+		elsif input == "cards"
 			display_card_collection
 		elsif input =~ /^cards \w+$/
 			set_code = input[/^cards (\w+)$/, 1]
 			display_cards_for set_code
-		elsif input == "sets" # list of known sets
+		elsif input == "sets"
 			display_known_sets
-		elsif SETS.has_key?(input.split[0]) # change set
+		elsif SETS.has_key?(input.split[0])
 			change_set input.split[0]
+
 			rest_of_input = input.sub(/^\w+ /, '')
 			if rest_of_input != input && rest_of_input =~ CARD_NUMBER_RX
 				add_card rest_of_input
 			end
 			input
-		elsif input =~ CARD_NUMBER_RX # add/remove card to collection
+		elsif input =~ CARD_NUMBER_RX
 			add_card input
 		else
 			puts "Uknown command. Type \"?\" for help."
