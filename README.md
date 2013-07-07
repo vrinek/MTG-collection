@@ -10,10 +10,10 @@ This script is mostly targeted at developers and other people that feel comforta
 * Supports expansions up to "Dragon's Maze"
 * Add cards by number to collection
 * Persist cards collection to a JSON file
+* Remove cards from collection
 
 ## Future features
 
-* Remove cards from collection
 * Card prices
 * Statistics on collection
 * Gather cards in groups/decks
