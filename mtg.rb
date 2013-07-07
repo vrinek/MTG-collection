@@ -39,11 +39,31 @@ def process_input(input, verbose = true)
 	elsif input == "cards" # display cards collection
 		puts "Current collection:"
 		$cards.each do |set_code, card_numbers|
-			puts SETS[set_code]
+			puts SETS[set_code] || "foils"
+			rarities = Hash.new(0)
+			set_code = set_code.sub(/ foil$/, '')
+			cards_list = Checklist.new(set_code).tap(&:fetch!).cards
 			card_numbers.each do |(number, quantity)|
-				card = @cards_list.find { |card| card[:number].to_i == number.to_i }
-				puts sprintf("%8d x %3d - %s", quantity, number, card[:name])
+				card = cards_list.find { |card| card[:number].to_i == number.to_i }
+				rarities[card[:rarity]] += 1
 			end
+			rarities.each do |rarity, quantity|
+				puts "%4d %s"%[quantity, rarity]
+			end
+		end
+	elsif input =~ /^cards \w+$/
+		set_code = input[/^cards (\w+)$/, 1]
+		set_name = SETS[set_code]
+		puts "Cards in #{set_name}:"
+		cards_list = Checklist.new(set_code).tap(&:fetch!).cards
+		$cards[set_code].each do |(number, quantity)|
+			card = cards_list.find { |card| card[:number].to_i == number.to_i }
+			puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
+		end
+		puts "Foil cards in #{set_name}:"
+		$cards[set_code + " foil"].each do |(number, quantity)|
+			card = cards_list.find { |card| card[:number].to_i == number.to_i }
+			puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
 		end
 	elsif input == "sets" # list of known sets
 		puts "Known sets:"
@@ -51,9 +71,7 @@ def process_input(input, verbose = true)
 		return nil
 	elsif SETS.has_key?(input) # change set
 		@set_code = input
-		checklist = Checklist.new(@set_code)
-		checklist.fetch!
-		@cards_list = checklist.cards
+		@cards_list = Checklist.new(@set_code).tap(&:fetch!).cards
 		return input
 	elsif input =~ CARD_NUMBER_RX # add/remove card to collection
 		number, _, amount, foil = input.scan(CARD_NUMBER_RX)[0]
