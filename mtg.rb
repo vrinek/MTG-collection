@@ -9,7 +9,7 @@ HELP_TEXT = <<-TEXT
 	Enter a number to add a card to your collection.
 	Enter nothing to exit the program.
 TEXT
-CARD_NUMBER_RX = /^(\d+)([x ](\d+))?$/
+CARD_NUMBER_RX = /^(\d+)([x ](-?\d+))?( ?f)?$/
 
 # BUG: `url_for` does not work with fuse cards.
 def url_for(set_code, number)
@@ -29,7 +29,7 @@ end
 # 	`String` to log
 # 	`nil` to not log
 # 	`false` to exit
-def process_input(input)
+def process_input(input, verbose = true)
 	if input.empty? # end of story
 		ap $cards
 		return false
@@ -42,17 +42,20 @@ def process_input(input)
 		return nil
 	elsif SETS.has_key?(input) # set code
 		@set_code = input
-		$cards[@set_code] ||= Hash.new(0)
 		checklist = Checklist.new(@set_code)
 		checklist.fetch!
 		@cards_list = checklist.cards
 		return input
 	elsif input =~ CARD_NUMBER_RX # card number (and amount)
-		number, _, amount = input.scan(CARD_NUMBER_RX)[0]
+		number, _, amount, foil = input.scan(CARD_NUMBER_RX)[0]
 		amount ||= 1
-		$cards[@set_code][number.to_i] += amount.to_i
-		card = @cards_list.find { |card| card[:number].to_i == number.to_i }
-		ap card
+		set_code = foil ? @set_code + " foil" : @set_code
+		$cards[set_code] ||= Hash.new(0)
+		$cards[set_code][number.to_i] += amount.to_i
+		if verbose
+			card = @cards_list.find { |card| card[:number].to_i == number.to_i }
+			ap card
+		end
 		return input
 	else
 		puts "Uknown command. Type \"?\" for help."
@@ -64,7 +67,7 @@ LOG_FILE = "cards.log"
 if File.exists?(LOG_FILE)
 	File.open(LOG_FILE, 'r') do |cards_file|
 		cards_file.each_line do |line|
-			process_input line.strip
+			process_input line.strip, false
 		end
 	end
 end
