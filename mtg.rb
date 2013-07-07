@@ -9,7 +9,7 @@ HELP_TEXT = <<-TEXT
 	Enter a number to add a card to your collection.
 	Enter nothing to exit the program.
 TEXT
-CARD_NUMBER_RX = /^(\d+)([x ](-?\d+))?( ?f)?$/
+CARD_NUMBER_RX = /^(\d+)( +(-?\d+))?( *f)?$/
 
 # BUG: `url_for` does not work with fuse cards.
 def url_for(set_code, number)
