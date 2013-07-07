@@ -10,11 +10,17 @@ class InputProcessor
 			Syntax is:
 				"<number> (<quantity>) (f)"
 			Examples:
+				"13", number 13 (quantity is 1 by default)
 				"13 2", number 13, quantity 2
-				"13 f", number 13, foil (quantity is 1 by default)
+				"13 f", number 13, foil
 				"13f", same as above
 				"13 5 f", number 13, quantity 5, foil
 				"13 -1", number 13, quantity -1 (removes 1 card from the collection)
+		Enter a set code followed by a card number to add a card.
+			Syntax is:
+				"<set_code> <number> (<quantity>) (f)"
+				"dgm 13 2", set "Dragon's Maze", number 13, quantity 2
+				"m13 42 f", set "Magic 2013", number 42, foil
 		Enter nothing to exit the program.
 		Other commands:
 			"sets": displays the list of all known sets
