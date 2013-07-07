@@ -52,6 +52,11 @@ def process_input(input, verbose = true)
 		set_code = foil ? @set_code + " foil" : @set_code
 		$cards[set_code] ||= Hash.new(0)
 		$cards[set_code][number.to_i] += amount.to_i
+		if $cards[set_code][number.to_i] == 0
+			$cards[set_code].delete number.to_i
+		elsif $cards[set_code][number.to_i] < 0
+			raise "The card collection cannot contain negative quantities of cards"
+		end
 		if verbose
 			card = @cards_list.find { |card| card[:number].to_i == number.to_i }
 			ap card
