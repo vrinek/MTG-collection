@@ -4,6 +4,53 @@ A script to manage Magic the Gathering cards in a collection file for book keepi
 
 This script is mostly targeted at developers and other people that feel comfortable with the command line.
 
+## Dependencies
+
+This script is developed with Ruby 2.0 in mind.
+
+I will probably add a `Gemfile` or something later but for now you will have to install the following gems in order to use the code:
+
+* awesome_print
+* nokogiri
+
+## Usage
+
+`git clone` or download the code and `cd` to that directory.
+
+`ruby mtg.rb` to start the program. This should behave like a shell, you type in commands, press enter and stuff happens. Type "?" to get some help.
+
+The prompt looks like this:
+
+    set: Dragon's Maze >
+
+### Sample usage
+
+    $ ruby mtg.rb
+    set: NONE > dgm 12
+    # adds "Hidden Strings" to your collection
+    set: Dragon's Maze > 14 2
+    # adds 2 "Mindstatic" to your collection
+    set: Dragon's Maze > 19
+    # adds "Uncovered Clues" to your collection
+    set: Dragon's Maze > 25 4
+    # adds 4 "Hired Torturer" to your collection
+    set: Dragon's Maze > tr
+    # switches to "Torment"
+    set: Torment > 4
+    # adds "Equal Treatment" to your collection
+    set: Torment > 14f
+    # adds a foil "Reborn Hero" to your collection
+    set: Torment > cards
+    # displays your collection so far
+    Current collection:
+    Dragon's Maze
+       8 Common
+    Torment
+       1 Uncommon
+    foils
+       1 Rare
+    set: Torment >
+
 ## Current features
 
 * Supports core sets up to "Magic 2013"
