@@ -27,6 +27,14 @@ HELP_TEXT = <<-TEXT
 TEXT
 CARD_NUMBER_RX = /^(\d+)( +(-?\d+))?( *f)?$/
 
+def find_card(number, cards_list)
+	cards_list.find { |card| card[:number] == number.to_i }
+end
+
+def cards_list_for(set_code)
+	Checklist.new(set_code.sub(/ foil$/, '')).tap(&:fetch!).cards
+end
+
 # @return String, nil, false
 # 	`String` to log
 # 	`nil` to not log
@@ -42,9 +50,9 @@ def process_input(input, verbose = true)
 			puts SETS[set_code] || "foils"
 			rarities = Hash.new(0)
 			set_code = set_code.sub(/ foil$/, '')
-			cards_list = Checklist.new(set_code).tap(&:fetch!).cards
+			cards_list = cards_list_for(set_code)
 			card_numbers.each do |(number, quantity)|
-				card = cards_list.find { |card| card[:number].to_i == number.to_i }
+				card = find_card(number, cards_list)
 				rarities[card[:rarity]] += 1
 			end
 			rarities.each do |rarity, quantity|
@@ -55,14 +63,14 @@ def process_input(input, verbose = true)
 		set_code = input[/^cards (\w+)$/, 1]
 		set_name = SETS[set_code]
 		puts "Cards in #{set_name}:"
-		cards_list = Checklist.new(set_code).tap(&:fetch!).cards
+		cards_list = cards_list_for(set_code)
 		$cards[set_code].each do |(number, quantity)|
-			card = cards_list.find { |card| card[:number].to_i == number.to_i }
+			card = find_card(number, cards_list)
 			puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
 		end
 		puts "Foil cards in #{set_name}:"
 		$cards[set_code + " foil"].each do |(number, quantity)|
-			card = cards_list.find { |card| card[:number].to_i == number.to_i }
+			card = find_card(number, cards_list)
 			puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
 		end
 	elsif input == "sets" # list of known sets
@@ -85,12 +93,12 @@ def process_input(input, verbose = true)
 			raise "The card collection cannot contain negative quantities of cards"
 		end
 		if verbose
-			card = @cards_list.find { |card| card[:number].to_i == number.to_i }
+			card = find_card(number, @cards_list)
 			ap card
 			next_ten = @cards_list.select do |card|
-				card[:number].to_i > number.to_i && card[:number].to_i <= number.to_i + 10
+				card[:number] > number.to_i && card[:number] <= number.to_i + 10
 			end
-			next_ten.sort_by { |card| card[:number].to_i }.each do |card|
+			next_ten.sort_by { |card| card[:number] }.each do |card|
 				puts "%3d - %s"%[card[:number], card[:name]]
 			end
 		end

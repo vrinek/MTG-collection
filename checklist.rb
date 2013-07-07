@@ -40,8 +40,14 @@ class Checklist
 	def parse_html
 		@cards = []
 		Nokogiri::HTML(@html).css('tr.odd, tr.even').each do |card_tr|
-			keys = %i[number name type mana_cost rarity artist sets]
+			keys = %i[number name type mana_cost rarity artist sets side]
 			values = card_tr.css('td').map(&:text)
+			side = nil
+			if values[0] =~ /^\d+[ab]$/
+				side = values[0][/^\d+([ab])$/, 1]
+			end
+			values << side
+			values[0] = values[0].to_i
 			card = Hash[*[keys, values].transpose.flatten]
 			@cards << card
 		end
