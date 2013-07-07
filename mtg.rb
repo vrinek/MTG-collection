@@ -23,6 +23,7 @@ HELP_TEXT = <<-TEXT
 	Other commands:
 		"sets": displays the list of all known sets
 		"help/?": displays this help text
+		"cards": displays current card collection
 TEXT
 CARD_NUMBER_RX = /^(\d+)( +(-?\d+))?( *f)?$/
 
@@ -46,12 +47,18 @@ end
 # 	`false` to exit
 def process_input(input, verbose = true)
 	if input.empty? # end of story
-		ap $cards
 		return false
 	elsif input == "?" || input == "help" # display help
 		puts HELP_TEXT
+	elsif input == "cards" # display cards collection
 		puts "Current collection:"
-		ap $cards
+		$cards.each do |set_code, card_numbers|
+			puts SETS[set_code]
+			card_numbers.each do |(number, quantity)|
+				card = @cards_list.find { |card| card[:number].to_i == number.to_i }
+				puts sprintf("%8d x %3d - %s", quantity, number, card[:name])
+			end
+		end
 	elsif input == "sets" # list of known sets
 		puts "Known sets:"
 		ap SETS
