@@ -74,7 +74,7 @@ class InputProcessor
 	def display_card_collection
 		puts "Current collection:"
 		$cards.each do |set_code, card_numbers|
-			puts SETS[set_code] || "foils"
+			puts SETS[set_code] || (SETS[set_code.sub(' foil', '')] + " foils")
 			rarities = Hash.new(0)
 			set_code = set_code.sub(/ foil$/, '')
 			cards_list = cards_list_for(set_code)
