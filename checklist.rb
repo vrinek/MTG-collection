@@ -15,8 +15,7 @@ class Checklist
 
 	def fetch!
 		fetch_html
-		parse_html
-		save_cards
+		load_cards or parse_html and save_cards
 	end
 
 	private
@@ -37,6 +36,16 @@ class Checklist
 		end
 	end
 
+	def load_cards
+		if File.exist?(filename)
+			File.open(filename) do |file|
+				@cards = JSON.load(file)
+			end
+		else
+			return false
+		end
+	end
+
 	def parse_html
 		@cards = []
 		Nokogiri::HTML(@html).css('tr.odd, tr.even').each do |card_tr|
@@ -54,9 +63,13 @@ class Checklist
 	end
 
 	def save_cards
-		filename = File.join(set_folder, "cards.json")
 		File.open filename, 'w' do |file|
 			file.puts @cards.to_json
 		end
 	end
+
+	def filename
+		File.join(set_folder, "cards.json")
+	end
+
 end
