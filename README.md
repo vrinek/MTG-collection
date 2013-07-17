@@ -58,6 +58,7 @@ The prompt looks like this:
 * Add cards by number to collection
 * Persist cards collection to a JSON file
 * Remove cards from collection
+* Display cards for import in deckbox.org
 
 ## Future features
 
@@ -65,6 +66,8 @@ The prompt looks like this:
 * Statistics on collection
 * Gather cards in groups/decks
 * Full text search on cards
+* Export CSV for better import into deckbox.org
+* Keep time of when a card was added to the collection
 
 ## Features that will probably not happen
 
