@@ -41,6 +41,8 @@ class InputProcessor
 			display_help
 		elsif input == "cards"
 			display_card_collection
+		elsif input == "cards deckbox"
+			display_card_for_deckbox
 		elsif input =~ /^cards \w+$/
 			set_code = input[/^cards (\w+)$/, 1]
 			display_cards_for set_code
@@ -105,6 +107,24 @@ class InputProcessor
 					card = find_card(number, cards_list)
 					puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
 				end
+			end
+		end
+	end
+
+	def display_card_for_deckbox
+		puts "Copy the following, set by set, into deckbox.org\n\n"
+		SETS.each do |set_code, set_name|
+			owned_cards = ($cards[set_code + " foil"] || {}).reduce($cards[set_code] || {}) do |regulars, (foil_number, foil_quantity)|
+				regulars[foil_number] += foil_quantity
+				regulars
+			end
+			next if owned_cards.empty?
+
+			cards_list = cards_list_for(set_code)
+			puts set_name
+			owned_cards.each do |number, quantity|
+				card = find_card(number, cards_list)
+				puts "%3d %s"%[quantity, card[:name]]
 			end
 		end
 	end
