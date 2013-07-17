@@ -39,7 +39,7 @@ class Checklist
 	def load_cards
 		if File.exist?(filename)
 			File.open(filename) do |file|
-				@cards = JSON.load(file)
+				@cards = JSON.load(file, nil, symbolize_names: true)
 			end
 		else
 			return false
