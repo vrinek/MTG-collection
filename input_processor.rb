@@ -141,7 +141,8 @@ class InputProcessor
 	end
 
 	def find_card(number, cards_list)
-		cards_list.find { |card| card[:number] == number.to_i }
+		card = cards_list.find { |card| card[:number] == number.to_i }
+		card or raise "No card found with number #{number.inspect} in card list #{cards_list.inspect}"
 	end
 
 	def cards_list_for(set_code)
