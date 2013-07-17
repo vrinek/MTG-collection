@@ -83,6 +83,7 @@ SETS = {
 	'an' => "Arabian Nights",
 
 # Core Set Editions
+	'm14' =>"Magic 2014 Core Set",
 	'm13' =>"Magic 2013",
 	'm12' =>"Magic 2012",
 	'm11' =>"Magic 2011",
