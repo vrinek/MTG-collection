@@ -37,8 +37,8 @@ class Checklist
 	end
 
 	def load_cards
-		if File.exist?(filename)
-			File.open(filename) do |file|
+		if File.exist?(cards_filename)
+			File.open(cards_filename) do |file|
 				@cards = JSON.load(file, nil, symbolize_names: true)
 			end
 		else
@@ -63,12 +63,12 @@ class Checklist
 	end
 
 	def save_cards
-		File.open filename, 'w' do |file|
+		File.open cards_filename, 'w' do |file|
 			file.puts @cards.to_json
 		end
 	end
 
-	def filename
+	def cards_filename
 		File.join(set_folder, "cards.json")
 	end
 
