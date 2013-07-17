@@ -165,8 +165,12 @@ class InputProcessor
 	end
 
 	def find_card(number, cards_list)
-		card = cards_list.find { |card| card[:number] == number.to_i }
-		card or raise "No card found with number #{number.inspect} in card list #{cards_list.inspect}"
+		card = cards_list.find { |card| card[:number] == number.to_i && card[:side] != "b" }
+		raise "No card found with number #{number.inspect} in card list #{cards_list.inspect}" unless card
+		if card[:name] =~ /^\w+ \(\w+\/\w+\)$/
+			card[:name] = card[:name].scan(/\((\w+)\/(\w+)\)/).flatten.join(" // ")
+		end
+		card
 	end
 
 	def cards_list_for(set_code)
