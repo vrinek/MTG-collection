@@ -21,11 +21,14 @@ class InputProcessor
 				"<set_code> <number> (<quantity>) (f)"
 				"dgm 13 2", set "Dragon's Maze", number 13, quantity 2
 				"m13 42 f", set "Magic 2013", number 42, foil
+		To see your collection use the following commands:
+			"cards" - displays stats on your collection
+			"cards <set_code>" - displays the cards in the specified collection
+			"cards deckbox" - displays all your cards in a format that deckbox.org can understand
 		Enter nothing to exit the program.
 		Other commands:
 			"sets": displays the list of all known sets
 			"help/?": displays this help text
-			"cards": displays current card collection
 	TEXT
 
 	attr_reader :set_code
