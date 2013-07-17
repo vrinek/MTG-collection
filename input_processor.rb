@@ -74,9 +74,10 @@ class InputProcessor
 	def display_card_collection
 		puts "Current collection:"
 		SETS.each do |set_code, set_name|
-			cards_list = cards_list_for(set_code)
+			cards_list = nil
 			[set_code, set_code + " foil"].each do |code|
 				if $cards[code]
+					cards_list = cards_list_for(set_code)
 					puts set_name + code[/ foil/].to_s
 					rarities = Hash.new(0)
 					$cards[code].keys.sort.each do |number|
