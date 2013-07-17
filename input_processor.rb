@@ -73,34 +73,37 @@ class InputProcessor
 
 	def display_card_collection
 		puts "Current collection:"
-		$cards.each do |set_code, card_numbers|
-			puts SETS[set_code] || (SETS[set_code.sub(' foil', '')] + " foils")
-			rarities = Hash.new(0)
-			set_code = set_code.sub(/ foil$/, '')
+		SETS.each do |set_code, set_name|
 			cards_list = cards_list_for(set_code)
-			card_numbers.each do |(number, quantity)|
-				card = find_card(number, cards_list)
-				rarities[card[:rarity]] += quantity
-			end
-			rarities.each do |rarity, quantity|
-				puts "%4d %s"%[quantity, rarity]
+			[set_code, set_code + " foil"].each do |code|
+				if $cards[code]
+					puts set_name + code[/ foil/].to_s
+					rarities = Hash.new(0)
+					$cards[code].keys.sort.each do |number|
+						quantity = $cards[code][number]
+						card = find_card(number, cards_list)
+						rarities[card[:rarity]] += quantity
+					end
+					rarities.each do |rarity, quantity|
+						puts "%4d %s"%[quantity, rarity]
+					end
+				end
 			end
 		end
 	end
 
 	def display_cards_for(set_code)
 		set_name = SETS[set_code]
-		puts "Cards in #{set_name}:"
 		cards_list = cards_list_for(set_code)
-		$cards[set_code].each do |(number, quantity)|
-			card = find_card(number, cards_list)
-			puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
-		end
-		if $cards[set_code + " foil"]
-			puts "Foil cards in #{set_name}:"
-			$cards[set_code + " foil"].each do |(number, quantity)|
-				card = find_card(number, cards_list)
-				puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
+
+		[set_code, set_code + " foil"].each do |code|
+			if $cards[code]
+				puts "Cards in #{set_name}#{code[/ foil/]}:"
+				$cards[code].keys.sort.each do |number|
+					quantity = $cards[code][number]
+					card = find_card(number, cards_list)
+					puts "%3d x %3d - %s (%s)"%[quantity, number, card[:name], card[:rarity]]
+				end
 			end
 		end
 	end
