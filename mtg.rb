@@ -3,15 +3,18 @@ require "./sets.rb"
 require "./checklist.rb"
 require "./input_processor.rb"
 require 'open-uri'
+require 'time'
 
 $cards = {}
 
 processor = InputProcessor.new(false)
 LOG_FILENAME = "cards.log"
+SEPARATOR = ' :: '
+
 if File.exists?(LOG_FILENAME)
 	File.open(LOG_FILENAME, 'r') do |log_file|
 		log_file.each_line do |line|
-			processor.process_input line.strip
+			processor.process_input line.split(SEPARATOR)[1].strip
 		end
 	end
 end
@@ -24,7 +27,7 @@ File.open(LOG_FILENAME, 'a') do |log_file|
 		if result == false
 			break
 		elsif result.is_a?(String)
-			log_file.puts result
+			log_file.puts "#{Time.now.rfc2822}#{SEPARATOR}#{result}"
 		end
 	end
 end
