@@ -65,6 +65,7 @@ The prompt looks like this:
 
 ## Future features
 
+* Support more card atributes (language, promo, signed, textless, condition)
 * Card prices
 * Statistics on collection
 * Gather cards in groups/decks
