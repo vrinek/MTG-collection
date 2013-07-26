@@ -4,6 +4,7 @@ require "./checklist.rb"
 require "./input_processor.rb"
 require 'open-uri'
 require 'time'
+require 'csv'
 
 $cards = {}
 

@@ -62,6 +62,7 @@ The prompt looks like this:
 * Remove cards from collection
 * Display cards for import in deckbox.org
 * Keep time of when a card was added to the collection
+* Export CSV for better import into deckbox.org
 
 ## Future features
 
@@ -70,7 +71,6 @@ The prompt looks like this:
 * Statistics on collection
 * Gather cards in groups/decks
 * Full text search on cards
-* Export CSV for better import into deckbox.org
 
 ## Features that will probably not happen
 

@@ -49,6 +49,8 @@ class InputProcessor
 		elsif input =~ /^cards \w+$/
 			set_code = input[/^cards (\w+)$/, 1]
 			display_cards_for set_code
+		elsif input == "csv"
+			save_csv
 		elsif input == "sets"
 			display_known_sets
 		elsif SETS.has_key?(input.split[0])
@@ -130,6 +132,46 @@ class InputProcessor
 				puts "%3d %s"%[quantity, card[:name]]
 			end
 		end
+	end
+
+	def save_csv
+		condition = "Near Mint" # WIP
+		language = "English" # WIP
+		textless = "" # WIP
+		promo = "" # WIP
+		signed = "" # WIP
+
+		csv_data = CSV.generate do |csv|
+			csv << [
+				"Count", "Tradelist Count", "Name", "Foil",
+				"Textless", "Promo", "Signed", "Edition",
+				"Condition", "Language"
+			]
+
+			$cards.each do |code, cards|
+				set_code = code.sub(/ foil$/, '')
+				cards_list = cards_list_for(set_code)
+
+				set_name = SETS[set_code]
+				foil = code[/foil/]
+
+				cards.each do |card_number, quantity|
+					card_name = find_card(card_number, cards_list)[:name]
+
+					csv << [
+						quantity, 0, card_name, foil,
+						textless, promo, signed, set_name,
+						condition, language
+					]
+				end
+			end
+		end
+
+		csv_file = File.open('inventory.csv', 'w') do |file|
+			file << csv_data
+		end
+
+		puts "Saved at #{File.expand_path("inventory.csv")}"
 	end
 
 	def display_known_sets
