@@ -1,5 +1,6 @@
 class InputProcessor
 	CARD_NUMBER_RX = /^(\d+)( +(-?\d+))?( *f)?$/
+	VERBOSITY_LEVELS = %i[verbose quiet silent]
 	HELP_TEXT = <<-TEXT
 		Enter a set code to select that set.
 			Examples:
@@ -27,6 +28,10 @@ class InputProcessor
 			"cards deckbox" - displays all your cards in a format that deckbox.org can understand
 		To export your collection in a CSV file:
 			"csv" - it will be saved as "inventory.csv"
+		To adjust the level of verbosity:
+			"verbose" - after each card, display full details and the next 10 (by card number)
+			"quiet" - after each card, only display basic info (in one line)
+			"silent" - after each card, display nothing
 		Enter nothing to exit the program.
 		Other commands:
 			"sets": displays the list of all known sets
@@ -36,7 +41,7 @@ class InputProcessor
 	attr_reader :set_code
 
 	def initialize(verbose = true)
-		@verbose = verbose
+		@verbosity = verbose ? :verbose : :silent
 	end
 
 	def process_input(input)
@@ -65,6 +70,8 @@ class InputProcessor
 			input
 		elsif input =~ CARD_NUMBER_RX
 			add_card input
+		elsif VERBOSITY_LEVELS.include?(input.to_sym)
+			adjust_verbosity input.to_sym
 		else
 			puts "Uknown command. Type \"?\" for help."
 		end
@@ -198,7 +205,8 @@ class InputProcessor
 		elsif $cards[set_code][number.to_i] < 0
 			raise "The card collection cannot contain negative quantities of cards"
 		end
-		if @verbose
+
+		if verbose?
 			card = find_card(number, @cards_list)
 			ap card
 			next_ten = @cards_list.select do |card|
@@ -207,8 +215,31 @@ class InputProcessor
 			next_ten.sort_by { |card| card[:number] }.each do |card|
 				puts "%3d - %s"%[card[:number], card[:name]]
 			end
+		elsif quiet?
+			card = find_card(number, @cards_list)
+			set_name = SETS[set_code.sub(/ foil$/, '')]
+			puts "#{set_name} - #{card[:name]} (#{card[:rarity]})"
 		end
+
 		return input
+	end
+
+	def adjust_verbosity(input)
+		@verbosity = input
+		puts "Verbosity is: #{@verbosity}"
+		return nil
+	end
+
+	def verbose?
+		@verbosity == :verbose
+	end
+
+	def quiet?
+		@verbosity == :quiet
+	end
+
+	def silent?
+		@verbosity == :silent
 	end
 
 	def find_card(number, cards_list)
