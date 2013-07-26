@@ -8,7 +8,7 @@ This script is mostly targeted at developers and other people that feel comforta
 
 This script is developed with Ruby 2.0 in mind.
 
-I will probably add a `Gemfile` or something later but for now you will have to install the following gems in order to use the code:
+Its dependencies are:
 
 * awesome_print
 * nokogiri
@@ -17,7 +17,9 @@ I will probably add a `Gemfile` or something later but for now you will have to 
 
 `git clone` or download the code and `cd` to that directory.
 
-`ruby mtg.rb` to start the program. This should behave like a shell, you type in commands, press enter and stuff happens. Type "?" to get some help.
+`bundle install` to install its dependencies.
+
+`bundle exec ruby mtg.rb` to start the program. This should behave like a shell, you type in commands, press enter and stuff happens. Type "?" to get some help.
 
 The prompt looks like this:
 
@@ -59,6 +61,7 @@ The prompt looks like this:
 * Persist cards collection to a JSON file
 * Remove cards from collection
 * Display cards for import in deckbox.org
+* Keep time of when a card was added to the collection
 
 ## Future features
 
@@ -67,7 +70,6 @@ The prompt looks like this:
 * Gather cards in groups/decks
 * Full text search on cards
 * Export CSV for better import into deckbox.org
-* Keep time of when a card was added to the collection
 
 ## Features that will probably not happen
 
