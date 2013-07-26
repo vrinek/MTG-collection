@@ -53,7 +53,7 @@ The prompt looks like this:
        1 Rare
     set: Torment >
 
-For more sample usage, see: doc/Sample_Workflows.md
+[More usage samples.](docs/Sample_Workflows.md)
 
 ## Current features
 
