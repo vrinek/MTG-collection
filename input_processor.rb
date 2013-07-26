@@ -25,6 +25,8 @@ class InputProcessor
 			"cards" - displays stats on your collection
 			"cards <set_code>" - displays the cards in the specified collection
 			"cards deckbox" - displays all your cards in a format that deckbox.org can understand
+		To export your collection in a CSV file:
+			"csv" - it will be saved as "inventory.csv"
 		Enter nothing to exit the program.
 		Other commands:
 			"sets": displays the list of all known sets
